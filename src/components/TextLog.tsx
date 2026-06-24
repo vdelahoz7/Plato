@@ -87,10 +87,10 @@ export default function TextLog({
 
   return (
     <section className="mt-6">
-      <h2 className="mb-2 text-xs font-medium uppercase tracking-wide text-neutral-500">
+      <h2 className="mb-2 text-xs font-medium uppercase tracking-wide text-muted">
         Agregar por texto
       </h2>
-      <div className="flex items-center gap-2 rounded-2xl border border-neutral-200/80 bg-white p-2">
+      <div className="flex items-center gap-2 rounded-2xl border border-line bg-surface p-2">
         <input
           value={text}
           onChange={(e) => setText(e.target.value)}
@@ -103,7 +103,7 @@ export default function TextLog({
             onClick={toggleVoice}
             aria-label="Dictar por voz"
             className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${
-              listening ? "bg-red-100 text-red-600" : "bg-neutral-100 text-neutral-600"
+              listening ? "bg-red-100 text-red-600" : "bg-neutral-100 dark:bg-neutral-800 text-muted"
             }`}
           >
             <Mic size={18} />

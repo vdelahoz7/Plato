@@ -16,7 +16,7 @@ const GOALS: { id: Goal; label: string; Icon: typeof Minus }[] = [
 type Mode = "welcome" | "login" | "register";
 
 const inputCls =
-  "w-full rounded-xl border border-neutral-200 px-4 py-3 text-sm focus:border-brand-bright focus:outline-none";
+  "w-full rounded-xl border border-line px-4 py-3 text-sm focus:border-brand-bright focus:outline-none";
 
 export default function Auth({ onAuthed }: { onAuthed: (u: User) => void }) {
   const [mode, setMode] = useState<Mode>("welcome");
@@ -92,7 +92,7 @@ export default function Auth({ onAuthed }: { onAuthed: (u: User) => void }) {
 
   return (
     <div className="flex flex-1 flex-col items-center justify-center px-5 py-8">
-      <div className="w-full max-w-sm rounded-2xl border border-neutral-200 bg-white p-6">
+      <div className="w-full max-w-sm rounded-2xl border border-line bg-surface p-6">
         <div className="mb-5 flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand">
             <Logo className="h-7 w-7" />
@@ -107,7 +107,7 @@ export default function Auth({ onAuthed }: { onAuthed: (u: User) => void }) {
           <div className="space-y-3">
             <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="correo@ejemplo.com" autoComplete="email" className={inputCls} />
             <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} onKeyDown={(e) => e.key === "Enter" && email.trim() && password && submit()} placeholder="Contraseña" autoComplete="current-password" className={inputCls} />
-            {error && <p className="rounded-lg bg-red-50 px-3 py-2 text-xs text-red-700">{error}</p>}
+            {error && <p className="rounded-lg bg-red-50 dark:bg-red-500/15 px-3 py-2 text-xs text-red-700 dark:text-red-300">{error}</p>}
             <button onClick={submit} disabled={!email.trim() || !password || loading} className="w-full rounded-xl bg-brand py-3 text-sm font-medium text-white active:scale-[0.99] disabled:opacity-50">
               {loading ? "Un momento…" : "Entrar"}
             </button>
@@ -130,17 +130,17 @@ export default function Auth({ onAuthed }: { onAuthed: (u: User) => void }) {
         {isRegister && regStep === 1 && (
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-2">
-              <button onClick={() => setSex("male")} className={`rounded-xl border py-2.5 text-sm ${sex === "male" ? "border-brand-bright bg-emerald-50 font-medium text-brand" : "border-neutral-200"}`}>Hombre</button>
-              <button onClick={() => setSex("female")} className={`rounded-xl border py-2.5 text-sm ${sex === "female" ? "border-brand-bright bg-emerald-50 font-medium text-brand" : "border-neutral-200"}`}>Mujer</button>
+              <button onClick={() => setSex("male")} className={`rounded-xl border py-2.5 text-sm ${sex === "male" ? "border-brand-bright bg-emerald-50 dark:bg-emerald-500/15 font-medium text-brand" : "border-line"}`}>Hombre</button>
+              <button onClick={() => setSex("female")} className={`rounded-xl border py-2.5 text-sm ${sex === "female" ? "border-brand-bright bg-emerald-50 dark:bg-emerald-500/15 font-medium text-brand" : "border-line"}`}>Mujer</button>
             </div>
 
             <div className="grid grid-cols-3 gap-2">
-              <label className="text-xs text-neutral-500">Edad<input type="number" value={age} onChange={(e) => setAge(e.target.value)} className={`${inputCls} mt-1`} /></label>
-              <label className="text-xs text-neutral-500">Altura cm<input type="number" value={height} onChange={(e) => setHeight(e.target.value)} className={`${inputCls} mt-1`} /></label>
-              <label className="text-xs text-neutral-500">Peso kg<input type="number" value={weight} onChange={(e) => setWeight(e.target.value)} className={`${inputCls} mt-1`} /></label>
+              <label className="text-xs text-muted">Edad<input type="number" value={age} onChange={(e) => setAge(e.target.value)} className={`${inputCls} mt-1`} /></label>
+              <label className="text-xs text-muted">Altura cm<input type="number" value={height} onChange={(e) => setHeight(e.target.value)} className={`${inputCls} mt-1`} /></label>
+              <label className="text-xs text-muted">Peso kg<input type="number" value={weight} onChange={(e) => setWeight(e.target.value)} className={`${inputCls} mt-1`} /></label>
             </div>
 
-            <label className="block text-xs text-neutral-500">
+            <label className="block text-xs text-muted">
               Actividad
               <select value={activity} onChange={(e) => setActivity(e.target.value as Activity)} className={`${inputCls} mt-1`}>
                 {ACTIVITIES.map((a) => (
@@ -150,10 +150,10 @@ export default function Auth({ onAuthed }: { onAuthed: (u: User) => void }) {
             </label>
 
             <div>
-              <p className="mb-1 text-xs text-neutral-500">Objetivo</p>
+              <p className="mb-1 text-xs text-muted">Objetivo</p>
               <div className="grid grid-cols-3 gap-2">
                 {GOALS.map((g) => (
-                  <button key={g.id} onClick={() => setGoal(g.id)} className={`rounded-xl border px-2 py-2.5 text-center text-xs ${goal === g.id ? "border-brand-bright bg-emerald-50 font-medium text-brand" : "border-neutral-200"}`}>
+                  <button key={g.id} onClick={() => setGoal(g.id)} className={`rounded-xl border px-2 py-2.5 text-center text-xs ${goal === g.id ? "border-brand-bright bg-emerald-50 dark:bg-emerald-500/15 font-medium text-brand" : "border-line"}`}>
                     <g.Icon size={18} className="mx-auto mb-0.5" />
                     {g.label}
                   </button>
@@ -161,18 +161,18 @@ export default function Auth({ onAuthed }: { onAuthed: (u: User) => void }) {
               </div>
             </div>
 
-            <div className="rounded-xl bg-emerald-50 p-3 text-center">
-              <p className="text-xs text-emerald-700">Tu meta diaria calculada</p>
+            <div className="rounded-xl bg-emerald-50 dark:bg-emerald-500/15 p-3 text-center">
+              <p className="text-xs text-emerald-700 dark:text-emerald-300">Tu meta diaria calculada</p>
               <p className="text-2xl font-semibold text-brand tabular-nums">
                 {previewCalories.toLocaleString("es")}{" "}
                 <span className="text-sm font-normal">kcal</span>
               </p>
             </div>
 
-            {error && <p className="rounded-lg bg-red-50 px-3 py-2 text-xs text-red-700">{error}</p>}
+            {error && <p className="rounded-lg bg-red-50 dark:bg-red-500/15 px-3 py-2 text-xs text-red-700 dark:text-red-300">{error}</p>}
 
             <div className="flex gap-3">
-              <button onClick={() => setRegStep(0)} className="flex-1 rounded-xl border border-neutral-300 py-3 text-sm font-medium text-neutral-600">Atrás</button>
+              <button onClick={() => setRegStep(0)} className="flex-1 rounded-xl border border-line py-3 text-sm font-medium text-muted">Atrás</button>
               <button onClick={submit} disabled={loading} className="flex-[2] rounded-xl bg-brand py-3 text-sm font-medium text-white active:scale-[0.99] disabled:opacity-50">
                 {loading ? "Creando…" : "Crear cuenta"}
               </button>
@@ -181,7 +181,7 @@ export default function Auth({ onAuthed }: { onAuthed: (u: User) => void }) {
         )}
 
         {regStep === 0 && (
-          <p className="mt-4 text-center text-xs text-neutral-500">
+          <p className="mt-4 text-center text-xs text-muted">
             {isRegister ? "¿Ya tienes cuenta?" : "¿No tienes cuenta?"}{" "}
             <button onClick={() => { setError(null); setMode(isRegister ? "login" : "register"); }} className="font-medium text-brand hover:underline">
               {isRegister ? "Inicia sesión" : "Créala aquí"}

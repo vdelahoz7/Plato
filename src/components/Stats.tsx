@@ -28,30 +28,30 @@ export default function Stats({ meals, goal }: { meals: Meal[]; goal: number }) 
   return (
     <div className="mx-auto w-full max-w-md flex-1 px-5 pt-4 md:max-w-2xl md:px-0 md:pt-0">
       <h2 className="text-sm font-medium">Estadísticas</h2>
-      <p className="mb-4 text-xs text-neutral-500">Esta semana</p>
+      <p className="mb-4 text-xs text-muted">Esta semana</p>
 
       <div className="mb-5 grid grid-cols-2 gap-3">
-        <div className="rounded-xl bg-white p-4">
-          <p className="mb-1 text-xs text-neutral-500">Promedio</p>
+        <div className="rounded-xl bg-surface p-4">
+          <p className="mb-1 text-xs text-muted">Promedio</p>
           <p className="text-lg font-semibold tabular-nums">
             {average.toLocaleString("es")}
           </p>
         </div>
-        <div className="rounded-xl bg-white p-4">
-          <p className="mb-1 text-xs text-neutral-500">En meta</p>
+        <div className="rounded-xl bg-surface p-4">
+          <p className="mb-1 text-xs text-muted">En meta</p>
           <p className="text-lg font-semibold tabular-nums">
             {inGoal}/{withData.length}
           </p>
         </div>
       </div>
 
-      <div className="rounded-2xl bg-white p-4">
+      <div className="rounded-2xl bg-surface p-4">
         <div className="relative flex h-44 items-stretch justify-between gap-2">
           <div
             className="pointer-events-none absolute inset-x-0 z-10 border-t border-dashed border-amber-500"
             style={{ bottom: `${goalPct}%` }}
           >
-            <span className="absolute -top-4 right-0 bg-white pl-1 text-[11px] text-amber-700">
+            <span className="absolute -top-4 right-0 bg-surface pl-1 text-[11px] text-amber-700">
               meta
             </span>
           </div>
@@ -64,14 +64,14 @@ export default function Stats({ meals, goal }: { meals: Meal[]; goal: number }) 
                 className="w-full rounded-t transition-[height] duration-500"
                 style={{
                   height: `${Math.max((d.cals / max) * 100, d.cals > 0 ? 4 : 1)}%`,
-                  background: d.cals === 0 ? "#e2e5e0" : d.over ? "#d85a30" : "#1d9e75",
+                  background: d.cals === 0 ? "var(--track)" : d.over ? "#d85a30" : "#1d9e75",
                 }}
               />
-              <span className="text-[11px] text-neutral-500">{d.label}</span>
+              <span className="text-[11px] text-muted">{d.label}</span>
             </div>
           ))}
         </div>
-        <div className="mt-3 flex items-center gap-4 text-[11px] text-neutral-500">
+        <div className="mt-3 flex items-center gap-4 text-[11px] text-muted">
           <span className="flex items-center gap-1.5">
             <span className="h-2 w-2 rounded-sm" style={{ background: "#1d9e75" }} /> en meta
           </span>
@@ -82,7 +82,7 @@ export default function Stats({ meals, goal }: { meals: Meal[]; goal: number }) 
       </div>
 
       {withData.length === 0 && (
-        <p className="mt-4 text-center text-xs text-neutral-400">
+        <p className="mt-4 text-center text-xs text-faint">
           Registra comidas para ver tu progreso de la semana.
         </p>
       )}

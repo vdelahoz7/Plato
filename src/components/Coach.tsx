@@ -15,9 +15,9 @@ const STATUS_STYLE: Record<
   string,
   { bg: string; border: string; text: string; Icon: typeof Bot }
 > = {
-  bien: { bg: "bg-emerald-50", border: "border-emerald-200", text: "text-emerald-800", Icon: CheckCircle2 },
-  atencion: { bg: "bg-amber-50", border: "border-amber-200", text: "text-amber-800", Icon: Lightbulb },
-  alerta: { bg: "bg-red-50", border: "border-red-200", text: "text-red-800", Icon: AlertTriangle },
+  bien: { bg: "bg-emerald-50 dark:bg-emerald-500/15", border: "border-emerald-200 dark:border-emerald-500/30", text: "text-emerald-800 dark:text-emerald-300", Icon: CheckCircle2 },
+  atencion: { bg: "bg-amber-50 dark:bg-amber-500/15", border: "border-amber-200 dark:border-amber-500/30", text: "text-amber-800 dark:text-amber-300", Icon: Lightbulb },
+  alerta: { bg: "bg-red-50 dark:bg-red-500/15", border: "border-red-200 dark:border-red-500/30", text: "text-red-800 dark:text-red-300", Icon: AlertTriangle },
 };
 
 export default function Coach({
@@ -67,14 +67,14 @@ export default function Coach({
 
   return (
     <section className="mt-6">
-      <h2 className="mb-2 text-xs font-medium uppercase tracking-wide text-neutral-500">
+      <h2 className="mb-2 text-xs font-medium uppercase tracking-wide text-muted">
         Coach con IA
       </h2>
 
       {!feedback && (
-        <div className="rounded-2xl border border-neutral-200/80 bg-white p-5 text-center">
+        <div className="rounded-2xl border border-line bg-surface p-5 text-center">
           <Bot size={32} className="mx-auto mb-3 text-brand" />
-          <p className="mb-4 text-sm text-neutral-600">
+          <p className="mb-4 text-sm text-muted">
             {today.length === 0
               ? "Registra una comida y tu coach analizará cómo vas hoy."
               : "Tu coach puede analizar lo que llevas hoy y darte consejos."}
@@ -96,10 +96,10 @@ export default function Coach({
             <StatusIcon size={20} className={style.text} />
             <p className={`font-semibold ${style.text}`}>{feedback.headline}</p>
           </div>
-          <p className="mb-3 text-sm text-neutral-700">{feedback.analysis}</p>
+          <p className="mb-3 text-sm text-muted">{feedback.analysis}</p>
           <ul className="space-y-1.5">
             {feedback.tips.map((tip, i) => (
-              <li key={i} className="flex gap-2 text-sm text-neutral-700">
+              <li key={i} className="flex gap-2 text-sm text-muted">
                 <span className={style.text}>•</span>
                 {tip}
               </li>

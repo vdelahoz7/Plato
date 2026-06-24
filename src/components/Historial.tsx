@@ -33,10 +33,10 @@ export default function Historial({ meals, goal }: { meals: Meal[]; goal: number
   return (
     <div className="mx-auto w-full max-w-md flex-1 px-5 pt-4 md:max-w-2xl md:px-0 md:pt-0">
       <h2 className="text-sm font-medium">Historial</h2>
-      <p className="mb-4 text-xs text-neutral-500 first-letter:uppercase">{monthName}</p>
+      <p className="mb-4 text-xs text-muted first-letter:uppercase">{monthName}</p>
 
-      <div className="rounded-2xl bg-white p-4">
-        <div className="mb-1 grid grid-cols-7 text-center text-[11px] text-neutral-400">
+      <div className="rounded-2xl bg-surface p-4">
+        <div className="mb-1 grid grid-cols-7 text-center text-[11px] text-faint">
           {WEEK.map((d, i) => (
             <span key={i}>{d}</span>
           ))}
@@ -82,8 +82,8 @@ export default function Historial({ meals, goal }: { meals: Meal[]; goal: number
         </div>
       </div>
 
-      <div className="mt-4 rounded-xl bg-white p-4">
-        <p className="mb-1 text-xs text-neutral-500 first-letter:uppercase">{selLabel}</p>
+      <div className="mt-4 rounded-xl bg-surface p-4">
+        <p className="mb-1 text-xs text-muted first-letter:uppercase">{selLabel}</p>
         {sel ? (
           <>
             <div className="flex items-baseline justify-between">
@@ -97,12 +97,12 @@ export default function Historial({ meals, goal }: { meals: Meal[]; goal: number
                 {sel.calories > goal ? "sobre meta" : "en meta"}
               </span>
             </div>
-            <p className="mt-1 text-xs text-neutral-500">
+            <p className="mt-1 text-xs text-muted">
               {sel.count} {sel.count === 1 ? "comida registrada" : "comidas registradas"}
             </p>
           </>
         ) : (
-          <p className="text-sm text-neutral-400">Sin registro este día.</p>
+          <p className="text-sm text-faint">Sin registro este día.</p>
         )}
       </div>
     </div>

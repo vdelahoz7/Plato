@@ -20,6 +20,7 @@ import Stats from "@/components/Stats";
 import Historial from "@/components/Historial";
 import Coach from "@/components/Coach";
 import TextLog from "@/components/TextLog";
+import ThemeToggle from "@/components/ThemeToggle";
 import {
   type Analysis,
   type Meal,
@@ -127,7 +128,7 @@ export default function Home_() {
   const diary = (
     <div className="mx-auto w-full max-w-md px-4 md:max-w-4xl md:px-0">
       <div className="md:grid md:grid-cols-5 md:gap-5">
-        <section className="rounded-2xl border border-neutral-200/80 bg-white p-5 md:col-span-2 md:self-start">
+        <section className="rounded-2xl border border-line bg-surface p-5 md:col-span-2 md:self-start">
           <div className="flex items-center gap-5 md:flex-col md:gap-6">
             <CalorieRing total={Math.round(totals.calories)} goal={user.dailyCalories} />
             <div className="flex-1 space-y-3 md:w-full">
@@ -139,12 +140,12 @@ export default function Home_() {
         </section>
 
         <section className="mt-6 md:col-span-3 md:mt-0">
-          <h2 className="mb-2 text-xs font-medium uppercase tracking-wide text-neutral-500">
+          <h2 className="mb-2 text-xs font-medium uppercase tracking-wide text-muted">
             Comidas de hoy
           </h2>
           {today.length === 0 ? (
-            <div className="rounded-2xl border border-dashed border-neutral-300 bg-white/50 px-5 py-10 text-center md:py-16">
-              <p className="text-sm text-neutral-500">
+            <div className="rounded-2xl border border-dashed border-line bg-surface/50 px-5 py-10 text-center md:py-16">
+              <p className="text-sm text-muted">
                 Aún no registras comidas hoy.
                 <br />
                 Toma una foto para empezar.
@@ -155,14 +156,14 @@ export default function Home_() {
               {today.map((m) => (
                 <li
                   key={m.id}
-                  className="flex items-center gap-3 rounded-xl border border-neutral-200/80 bg-white px-4 py-3"
+                  className="flex items-center gap-3 rounded-xl border border-line bg-surface px-4 py-3"
                 >
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-50 text-brand">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-50 dark:bg-emerald-500/15 text-brand">
                     <Utensils size={18} />
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-medium">{m.name}</p>
-                    <p className="text-xs text-neutral-500">
+                    <p className="text-xs text-muted">
                       {new Date(m.createdAt).toLocaleTimeString("es", {
                         hour: "2-digit",
                         minute: "2-digit",
@@ -175,7 +176,7 @@ export default function Home_() {
                   <button
                     onClick={() => handleDelete(m.id)}
                     aria-label="Eliminar comida"
-                    className="ml-1 text-neutral-300 transition-colors hover:text-red-500"
+                    className="ml-1 text-faint transition-colors hover:text-red-500"
                   >
                     <X size={16} />
                   </button>
@@ -184,7 +185,7 @@ export default function Home_() {
             </ul>
           )}
           {error && (
-            <div className="mt-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            <div className="mt-5 rounded-xl border border-red-200 dark:border-red-500/30 bg-red-50 dark:bg-red-500/15 px-4 py-3 text-sm text-red-700 dark:text-red-300">
               {error}
             </div>
           )}
@@ -199,15 +200,16 @@ export default function Home_() {
   return (
     <div className="flex min-h-dvh">
       {/* Sidebar (escritorio) */}
-      <aside className="fixed inset-y-0 left-0 hidden w-60 flex-col border-r border-neutral-200 bg-white p-4 md:flex">
+      <aside className="fixed inset-y-0 left-0 hidden w-60 flex-col border-r border-line bg-surface p-4 md:flex">
         <div className="mb-6 flex items-center gap-2.5 px-2">
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand">
             <Logo />
           </div>
           <div className="leading-tight">
             <p className="font-semibold">Plato</p>
-            <p className="text-[11px] text-neutral-500">tu día, en una foto</p>
+            <p className="text-[11px] text-muted">tu día, en una foto</p>
           </div>
+          <ThemeToggle className="ml-auto" />
         </div>
 
         <nav className="flex flex-col gap-1">
@@ -217,8 +219,8 @@ export default function Home_() {
               onClick={() => setScreen(item.id)}
               className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm transition-colors ${
                 screen === item.id
-                  ? "bg-emerald-50 font-medium text-brand"
-                  : "text-neutral-600 hover:bg-neutral-100"
+                  ? "bg-emerald-50 dark:bg-emerald-500/15 font-medium text-brand"
+                  : "text-muted hover:bg-neutral-100 dark:hover:bg-neutral-800"
               }`}
             >
               <item.Icon size={18} />
@@ -245,8 +247,9 @@ export default function Home_() {
           </div>
           <div className="leading-tight">
             <p className="font-semibold">Plato</p>
-            <p className="text-[11px] text-neutral-500">tu día, en una foto</p>
+            <p className="text-[11px] text-muted">tu día, en una foto</p>
           </div>
+          <ThemeToggle className="ml-auto" />
         </header>
 
         <div className="w-full md:px-10 md:pt-10">
@@ -272,7 +275,7 @@ export default function Home_() {
       />
 
       {/* Barra inferior (móvil) */}
-      <nav className="fixed inset-x-0 bottom-0 z-30 flex items-center justify-around border-t border-neutral-200 bg-white/95 py-2.5 backdrop-blur md:hidden">
+      <nav className="fixed inset-x-0 bottom-0 z-30 flex items-center justify-around border-t border-line bg-surface/95 py-2.5 backdrop-blur md:hidden">
         {NAV.map((item, idx) => (
           <div key={item.id} className="flex items-center">
             {idx === 2 && (
@@ -288,7 +291,7 @@ export default function Home_() {
             <button
               onClick={() => setScreen(item.id)}
               className={`flex flex-col items-center gap-0.5 px-2 text-[11px] ${
-                screen === item.id ? "text-brand" : "text-neutral-400"
+                screen === item.id ? "text-brand" : "text-faint"
               }`}
             >
               <item.Icon size={20} />
@@ -300,25 +303,25 @@ export default function Home_() {
 
       {analyzing && (
         <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/40 p-6">
-          <div className="flex flex-col items-center gap-3 rounded-2xl bg-white px-8 py-7 text-center">
+          <div className="flex flex-col items-center gap-3 rounded-2xl bg-surface px-8 py-7 text-center">
             <Loader2 size={36} className="animate-spin text-brand" />
             <p className="text-sm font-medium">Identificando alimentos…</p>
-            <p className="text-xs text-neutral-500">La IA está analizando tu comida</p>
+            <p className="text-xs text-muted">La IA está analizando tu comida</p>
           </div>
         </div>
       )}
 
       {result && (
         <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/40 sm:items-center">
-          <div className="w-full max-w-md rounded-t-3xl bg-white p-5 sm:rounded-3xl">
-            <div className="mb-3 flex items-center gap-1.5 text-xs font-medium text-emerald-700">
+          <div className="w-full max-w-md rounded-t-3xl bg-surface p-5 sm:rounded-3xl">
+            <div className="mb-3 flex items-center gap-1.5 text-xs font-medium text-emerald-700 dark:text-emerald-300">
               <Sparkles size={14} /> Analizado con IA
             </div>
             <div className="mb-4 flex items-start justify-between gap-3">
               <p className="text-base font-semibold">{result.name}</p>
               <p className="shrink-0 text-xl font-semibold tabular-nums">
                 {Math.round(result.calories)}
-                <span className="text-xs font-normal text-neutral-500"> kcal</span>
+                <span className="text-xs font-normal text-muted"> kcal</span>
               </p>
             </div>
 
@@ -326,22 +329,22 @@ export default function Home_() {
               {result.items.map((it, i) => (
                 <li
                   key={i}
-                  className="flex justify-between border-t border-neutral-100 py-2 text-sm"
+                  className="flex justify-between border-t border-line py-2 text-sm"
                 >
-                  <span className="text-neutral-600">{it.name}</span>
+                  <span className="text-muted">{it.name}</span>
                   <span className="font-medium tabular-nums">{Math.round(it.calories)} kcal</span>
                 </li>
               ))}
             </ul>
 
             <div className="mb-5 flex gap-2 text-xs">
-              <span className="rounded-full bg-emerald-50 px-3 py-1 text-emerald-800">
+              <span className="rounded-full bg-emerald-50 dark:bg-emerald-500/15 px-3 py-1 text-emerald-800 dark:text-emerald-300">
                 P {Math.round(result.protein)}g
               </span>
-              <span className="rounded-full bg-amber-50 px-3 py-1 text-amber-800">
+              <span className="rounded-full bg-amber-50 dark:bg-amber-500/15 px-3 py-1 text-amber-800 dark:text-amber-300">
                 C {Math.round(result.carbs)}g
               </span>
-              <span className="rounded-full bg-orange-50 px-3 py-1 text-orange-800">
+              <span className="rounded-full bg-orange-50 dark:bg-orange-500/15 px-3 py-1 text-orange-800 dark:text-orange-300">
                 G {Math.round(result.fat)}g
               </span>
             </div>
@@ -349,7 +352,7 @@ export default function Home_() {
             <div className="flex gap-3">
               <button
                 onClick={() => setResult(null)}
-                className="flex-1 rounded-xl border border-neutral-300 py-3 text-sm font-medium text-neutral-600"
+                className="flex-1 rounded-xl border border-line py-3 text-sm font-medium text-muted"
               >
                 Descartar
               </button>

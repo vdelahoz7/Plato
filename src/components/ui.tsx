@@ -27,7 +27,7 @@ export function CalorieRing({ total, goal }: { total: number; goal: number }) {
   return (
     <div className="relative h-32 w-32 shrink-0">
       <svg viewBox="0 0 120 120" className="h-32 w-32 -rotate-90">
-        <circle cx="60" cy="60" r={r} fill="none" stroke="#e2e5e0" strokeWidth="12" />
+        <circle cx="60" cy="60" r={r} fill="none" stroke="var(--track)" strokeWidth="12" />
         <circle
           cx="60"
           cy="60"
@@ -45,7 +45,7 @@ export function CalorieRing({ total, goal }: { total: number; goal: number }) {
         <span className="text-2xl font-semibold tabular-nums">
           {total.toLocaleString("es")}
         </span>
-        <span className="text-xs text-neutral-500">de {goal.toLocaleString("es")}</span>
+        <span className="text-xs text-muted">de {goal.toLocaleString("es")}</span>
       </div>
     </div>
   );
@@ -69,7 +69,7 @@ export function MacroBar({
         <span style={{ color }}>{label}</span>
         <span className="font-medium tabular-nums">{Math.round(grams)} g</span>
       </div>
-      <div className="h-1.5 rounded-full bg-neutral-200">
+      <div className="h-1.5 rounded-full bg-track">
         <div
           className="h-full rounded-full transition-[width] duration-700"
           style={{ width: `${pct}%`, background: color }}
