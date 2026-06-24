@@ -7,6 +7,7 @@ import Profile from "@/components/Profile";
 import Stats from "@/components/Stats";
 import Historial from "@/components/Historial";
 import Coach from "@/components/Coach";
+import TextLog from "@/components/TextLog";
 import {
   type Analysis,
   type Meal,
@@ -178,6 +179,7 @@ export default function Home() {
         </section>
       </div>
 
+      <TextLog onResult={setResult} setBusy={setAnalyzing} setError={setError} />
       <Coach today={today} />
     </div>
   );

@@ -5,6 +5,7 @@ import {
   createPartFromBase64,
 } from "@google/genai";
 import { getCurrentUser } from "@/lib/auth";
+import { GEMINI_MODEL } from "@/lib/gemini";
 
 export const runtime = "nodejs";
 
@@ -83,7 +84,7 @@ export async function POST(request: Request) {
     for (let attempt = 0; attempt < 3; attempt++) {
       try {
         response = await ai.models.generateContent({
-          model: "gemini-2.5-flash",
+          model: GEMINI_MODEL,
           contents: createUserContent([
             PROMPT,
             createPartFromBase64(base64, mimeType),

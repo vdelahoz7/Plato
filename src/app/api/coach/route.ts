@@ -1,5 +1,6 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { getCurrentUser } from "@/lib/auth";
+import { GEMINI_MODEL } from "@/lib/gemini";
 
 export const runtime = "nodejs";
 
@@ -74,7 +75,7 @@ Sé concreto y amable, nada genérico. Si va bien, motívalo; si se está pasand
     for (let attempt = 0; attempt < 3; attempt++) {
       try {
         response = await ai.models.generateContent({
-          model: "gemini-2.5-flash",
+          model: GEMINI_MODEL,
           contents: prompt,
           config: { responseMimeType: "application/json", responseSchema },
         });
