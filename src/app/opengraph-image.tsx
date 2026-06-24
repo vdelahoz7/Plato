@@ -4,6 +4,20 @@ export const alt = "Plato — cuenta calorías con una foto";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
+// El mismo platito kawaii del logo de la app (ojos con brillo, cachetes y sonrisa).
+const mascot = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <ellipse cx="60" cy="62" rx="46" ry="44" fill="#ffffff"/>
+  <circle cx="47" cy="56" r="6.5" fill="#2B2B29"/>
+  <circle cx="73" cy="56" r="6.5" fill="#2B2B29"/>
+  <circle cx="48.6" cy="54" r="2" fill="#ffffff"/>
+  <circle cx="74.6" cy="54" r="2" fill="#ffffff"/>
+  <circle cx="40" cy="68" r="6" fill="#F285A0"/>
+  <circle cx="80" cy="68" r="6" fill="#F285A0"/>
+  <path d="M49 68 Q60 80 71 68" fill="none" stroke="#2B2B29" stroke-width="5" stroke-linecap="round"/>
+</svg>`;
+
+const mascotUri = `data:image/svg+xml,${encodeURIComponent(mascot)}`;
+
 export default function Image() {
   return new ImageResponse(
     (
@@ -15,24 +29,12 @@ export default function Image() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          background: "#0F6E56",
+          background: "#0f6e56",
         }}
       >
-        <div
-          style={{
-            position: "relative",
-            width: 180,
-            height: 180,
-            borderRadius: "50%",
-            background: "#ffffff",
-            display: "flex",
-          }}
-        >
-          <div style={{ position: "absolute", top: 70, left: 52, width: 16, height: 16, borderRadius: "50%", background: "#2B2B29" }} />
-          <div style={{ position: "absolute", top: 70, left: 112, width: 16, height: 16, borderRadius: "50%", background: "#2B2B29" }} />
-          <div style={{ position: "absolute", top: 96, left: 66, width: 48, height: 24, borderBottom: "6px solid #2B2B29", borderRadius: "0 0 40px 40px" }} />
-        </div>
-        <div style={{ marginTop: 48, fontSize: 100, fontWeight: 700, color: "#ffffff", display: "flex" }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={mascotUri} width={200} height={200} alt="" />
+        <div style={{ marginTop: 36, fontSize: 100, fontWeight: 700, color: "#ffffff", display: "flex" }}>
           Plato
         </div>
         <div style={{ marginTop: 6, fontSize: 40, color: "#d1fae5", display: "flex" }}>
