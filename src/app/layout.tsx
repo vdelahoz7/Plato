@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -12,10 +12,45 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const DESCRIPTION =
+  "Toma una foto de tu comida y la IA estima sus calorías y macros. Lleva tu diario diario y recibe consejos de un coach nutricional con inteligencia artificial.";
+
 export const metadata: Metadata = {
-  title: "Plato — cuenta calorías con una foto",
-  description:
-    "Toma una foto de tu comida y deja que la IA estime sus calorías y macros.",
+  metadataBase: new URL("https://plato-cyan.vercel.app"),
+  title: {
+    default: "Plato — cuenta calorías con una foto",
+    template: "%s · Plato",
+  },
+  description: DESCRIPTION,
+  applicationName: "Plato",
+  keywords: [
+    "contador de calorías",
+    "calorías por foto",
+    "nutrición",
+    "inteligencia artificial",
+    "macros",
+    "dieta",
+    "diario de comidas",
+    "coach nutricional",
+  ],
+  authors: [{ name: "Victor de la Hoz" }],
+  openGraph: {
+    title: "Plato — cuenta calorías con una foto",
+    description: DESCRIPTION,
+    url: "/",
+    siteName: "Plato",
+    locale: "es_ES",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Plato — cuenta calorías con una foto",
+    description: DESCRIPTION,
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0F6E56",
 };
 
 export default function RootLayout({
