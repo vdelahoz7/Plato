@@ -1,6 +1,18 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import {
+  BarChart3,
+  CalendarDays,
+  Camera,
+  Home,
+  Loader2,
+  Plus,
+  Sparkles,
+  User,
+  Utensils,
+  X,
+} from "lucide-react";
 import { CalorieRing, Logo, MacroBar } from "@/components/ui";
 import Auth from "@/components/Auth";
 import Profile from "@/components/Profile";
@@ -17,7 +29,7 @@ import {
 } from "@/lib/meals";
 import { macroTargets } from "@/lib/nutrition";
 import {
-  type User,
+  type User as AppUser,
   addMeal,
   deleteMeal,
   fetchMe,
@@ -27,16 +39,16 @@ import {
 
 type Screen = "diario" | "stats" | "historial" | "perfil";
 
-const NAV: { id: Screen; label: string; icon: string }[] = [
-  { id: "diario", label: "Inicio", icon: "🏠" },
-  { id: "stats", label: "Estadísticas", icon: "📊" },
-  { id: "historial", label: "Historial", icon: "📅" },
-  { id: "perfil", label: "Perfil", icon: "👤" },
+const NAV: { id: Screen; label: string; short: string; Icon: typeof Home }[] = [
+  { id: "diario", label: "Inicio", short: "Inicio", Icon: Home },
+  { id: "stats", label: "Estadísticas", short: "Stats", Icon: BarChart3 },
+  { id: "historial", label: "Historial", short: "Historial", Icon: CalendarDays },
+  { id: "perfil", label: "Perfil", short: "Perfil", Icon: User },
 ];
 
-export default function Home() {
+export default function Home_() {
   const [ready, setReady] = useState(false);
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<AppUser | null>(null);
   const [meals, setMeals] = useState<Meal[]>([]);
   const [screen, setScreen] = useState<Screen>("diario");
   const [analyzing, setAnalyzing] = useState(false);
@@ -53,7 +65,7 @@ export default function Home() {
     })();
   }, []);
 
-  async function onAuthed(u: User) {
+  async function onAuthed(u: AppUser) {
     setUser(u);
     setMeals(await fetchMeals().catch(() => []));
     setScreen("diario");
@@ -70,7 +82,6 @@ export default function Home() {
     const file = e.target.files?.[0];
     e.target.value = "";
     if (!file) return;
-
     setError(null);
     setAnalyzing(true);
     try {
@@ -146,8 +157,8 @@ export default function Home() {
                   key={m.id}
                   className="flex items-center gap-3 rounded-xl border border-neutral-200/80 bg-white px-4 py-3"
                 >
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-50 text-lg">
-                    🍽️
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-50 text-brand">
+                    <Utensils size={18} />
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-medium">{m.name}</p>
@@ -166,7 +177,7 @@ export default function Home() {
                     aria-label="Eliminar comida"
                     className="ml-1 text-neutral-300 transition-colors hover:text-red-500"
                   >
-                    ✕
+                    <X size={16} />
                   </button>
                 </li>
               ))}
@@ -210,7 +221,7 @@ export default function Home() {
                   : "text-neutral-600 hover:bg-neutral-100"
               }`}
             >
-              <span className="text-lg">{item.icon}</span>
+              <item.Icon size={18} />
               {item.label}
             </button>
           ))}
@@ -221,7 +232,8 @@ export default function Home() {
           disabled={analyzing}
           className="mt-auto flex items-center justify-center gap-2 rounded-xl bg-brand py-3 text-sm font-medium text-white active:scale-[0.99] disabled:opacity-70"
         >
-          {analyzing ? "Analizando…" : "📷 Analizar comida"}
+          {analyzing ? <Loader2 size={18} className="animate-spin" /> : <Camera size={18} />}
+          {analyzing ? "Analizando…" : "Analizar comida"}
         </button>
       </aside>
 
@@ -261,50 +273,37 @@ export default function Home() {
 
       {/* Barra inferior (móvil) */}
       <nav className="fixed inset-x-0 bottom-0 z-30 flex items-center justify-around border-t border-neutral-200 bg-white/95 py-2.5 backdrop-blur md:hidden">
-        <button
-          onClick={() => setScreen("diario")}
-          className={`flex flex-col items-center gap-0.5 text-[11px] ${screen === "diario" ? "text-brand" : "text-neutral-400"}`}
-        >
-          <span className="text-lg">🏠</span>
-          Inicio
-        </button>
-        <button
-          onClick={() => setScreen("stats")}
-          className={`flex flex-col items-center gap-0.5 text-[11px] ${screen === "stats" ? "text-brand" : "text-neutral-400"}`}
-        >
-          <span className="text-lg">📊</span>
-          Stats
-        </button>
-        <button
-          onClick={() => fileInput.current?.click()}
-          disabled={analyzing}
-          aria-label="Analizar comida"
-          className="-mt-8 flex h-14 w-14 items-center justify-center rounded-full border-4 border-background bg-brand text-2xl text-white shadow-lg active:scale-95 disabled:opacity-70"
-        >
-          {analyzing ? "…" : "📷"}
-        </button>
-        <button
-          onClick={() => setScreen("historial")}
-          className={`flex flex-col items-center gap-0.5 text-[11px] ${screen === "historial" ? "text-brand" : "text-neutral-400"}`}
-        >
-          <span className="text-lg">📅</span>
-          Historial
-        </button>
-        <button
-          onClick={() => setScreen("perfil")}
-          className={`flex flex-col items-center gap-0.5 text-[11px] ${screen === "perfil" ? "text-brand" : "text-neutral-400"}`}
-        >
-          <span className="text-lg">👤</span>
-          Perfil
-        </button>
+        {NAV.map((item, idx) => (
+          <div key={item.id} className="flex items-center">
+            {idx === 2 && (
+              <button
+                onClick={() => fileInput.current?.click()}
+                disabled={analyzing}
+                aria-label="Analizar comida"
+                className="-mt-8 flex h-14 w-14 items-center justify-center rounded-full border-4 border-background bg-brand text-white shadow-lg active:scale-95 disabled:opacity-70"
+              >
+                {analyzing ? <Loader2 size={22} className="animate-spin" /> : <Camera size={22} />}
+              </button>
+            )}
+            <button
+              onClick={() => setScreen(item.id)}
+              className={`flex flex-col items-center gap-0.5 px-2 text-[11px] ${
+                screen === item.id ? "text-brand" : "text-neutral-400"
+              }`}
+            >
+              <item.Icon size={20} />
+              {item.short}
+            </button>
+          </div>
+        ))}
       </nav>
 
       {analyzing && (
         <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/40 p-6">
           <div className="flex flex-col items-center gap-3 rounded-2xl bg-white px-8 py-7 text-center">
-            <div className="h-9 w-9 animate-spin rounded-full border-[3px] border-neutral-200 border-t-brand" />
+            <Loader2 size={36} className="animate-spin text-brand" />
             <p className="text-sm font-medium">Identificando alimentos…</p>
-            <p className="text-xs text-neutral-500">La IA está analizando tu foto</p>
+            <p className="text-xs text-neutral-500">La IA está analizando tu comida</p>
           </div>
         </div>
       )}
@@ -313,7 +312,7 @@ export default function Home() {
         <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/40 sm:items-center">
           <div className="w-full max-w-md rounded-t-3xl bg-white p-5 sm:rounded-3xl">
             <div className="mb-3 flex items-center gap-1.5 text-xs font-medium text-emerald-700">
-              <span>✨</span> Analizado con IA
+              <Sparkles size={14} /> Analizado con IA
             </div>
             <div className="mb-4 flex items-start justify-between gap-3">
               <p className="text-base font-semibold">{result.name}</p>
@@ -356,9 +355,9 @@ export default function Home() {
               </button>
               <button
                 onClick={confirmAdd}
-                className="flex-[2] rounded-xl bg-brand py-3 text-sm font-medium text-white"
+                className="flex flex-[2] items-center justify-center gap-1.5 rounded-xl bg-brand py-3 text-sm font-medium text-white"
               >
-                + Agregar al diario
+                <Plus size={16} /> Agregar al diario
               </button>
             </div>
           </div>

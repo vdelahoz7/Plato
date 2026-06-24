@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { ArrowRight, Mic } from "lucide-react";
 import type { Analysis } from "@/lib/meals";
 
 interface SpeechResultEvent {
@@ -101,11 +102,11 @@ export default function TextLog({
           <button
             onClick={toggleVoice}
             aria-label="Dictar por voz"
-            className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-lg ${
+            className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${
               listening ? "bg-red-100 text-red-600" : "bg-neutral-100 text-neutral-600"
             }`}
           >
-            🎤
+            <Mic size={18} />
           </button>
         )}
         <button
@@ -114,10 +115,10 @@ export default function TextLog({
           aria-label="Analizar texto"
           className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand text-white disabled:opacity-40"
         >
-          →
+          <ArrowRight size={18} />
         </button>
       </div>
-      {listening && <p className="mt-1.5 px-1 text-xs text-red-600">🎙️ Escuchando… habla ahora</p>}
+      {listening && <p className="mt-1.5 px-1 text-xs text-red-600">Escuchando… habla ahora</p>}
     </section>
   );
 }

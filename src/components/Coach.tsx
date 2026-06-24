@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { AlertTriangle, Bot, CheckCircle2, Lightbulb, RotateCw } from "lucide-react";
 import type { Meal } from "@/lib/meals";
 
 type Feedback = {
@@ -10,10 +11,13 @@ type Feedback = {
   tips: string[];
 };
 
-const STATUS_STYLE: Record<string, { bg: string; border: string; text: string; emoji: string }> = {
-  bien: { bg: "bg-emerald-50", border: "border-emerald-200", text: "text-emerald-800", emoji: "✅" },
-  atencion: { bg: "bg-amber-50", border: "border-amber-200", text: "text-amber-800", emoji: "💡" },
-  alerta: { bg: "bg-red-50", border: "border-red-200", text: "text-red-800", emoji: "⚠️" },
+const STATUS_STYLE: Record<
+  string,
+  { bg: string; border: string; text: string; Icon: typeof Bot }
+> = {
+  bien: { bg: "bg-emerald-50", border: "border-emerald-200", text: "text-emerald-800", Icon: CheckCircle2 },
+  atencion: { bg: "bg-amber-50", border: "border-amber-200", text: "text-amber-800", Icon: Lightbulb },
+  alerta: { bg: "bg-red-50", border: "border-red-200", text: "text-red-800", Icon: AlertTriangle },
 };
 
 export default function Coach({
@@ -59,6 +63,7 @@ export default function Coach({
   }
 
   const style = feedback ? STATUS_STYLE[feedback.status] ?? STATUS_STYLE.atencion : null;
+  const StatusIcon = style?.Icon ?? Lightbulb;
 
   return (
     <section className="mt-6">
@@ -68,7 +73,7 @@ export default function Coach({
 
       {!feedback && (
         <div className="rounded-2xl border border-neutral-200/80 bg-white p-5 text-center">
-          <p className="mb-3 text-3xl">🤖</p>
+          <Bot size={32} className="mx-auto mb-3 text-brand" />
           <p className="mb-4 text-sm text-neutral-600">
             {today.length === 0
               ? "Registra una comida y tu coach analizará cómo vas hoy."
@@ -88,7 +93,7 @@ export default function Coach({
       {feedback && style && (
         <div className={`rounded-2xl border ${style.border} ${style.bg} p-5`}>
           <div className="mb-2 flex items-center gap-2">
-            <span className="text-xl">{style.emoji}</span>
+            <StatusIcon size={20} className={style.text} />
             <p className={`font-semibold ${style.text}`}>{feedback.headline}</p>
           </div>
           <p className="mb-3 text-sm text-neutral-700">{feedback.analysis}</p>
@@ -103,9 +108,9 @@ export default function Coach({
           <button
             onClick={ask}
             disabled={loading}
-            className="mt-4 text-xs font-medium text-brand hover:underline disabled:opacity-50"
+            className="mt-4 flex items-center gap-1 text-xs font-medium text-brand hover:underline disabled:opacity-50"
           >
-            {loading ? "Pensando…" : "↻ Volver a analizar"}
+            <RotateCw size={12} /> {loading ? "Pensando…" : "Volver a analizar"}
           </button>
         </div>
       )}

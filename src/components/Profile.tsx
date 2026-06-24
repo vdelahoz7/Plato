@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Cake, Dumbbell, Ruler, Scale, Target, User as UserIcon } from "lucide-react";
 import { type Goal, type Meal, getStats, initials } from "@/lib/meals";
 import { type Activity, type Sex, ACTIVITIES, dailyCaloriesFor } from "@/lib/nutrition";
 import { type User, updateUser } from "@/lib/api";
@@ -89,12 +90,12 @@ export default function Profile({
 
       {!editing ? (
         <div className="rounded-xl bg-white">
-          <Row label="🎯 Meta diaria" value={`${user.dailyCalories.toLocaleString("es")} kcal`} />
-          <Row label="⚖️ Objetivo" value={GOAL_LABELS[user.goal]} />
-          <Row label="🚻 Sexo" value={user.sex === "male" ? "Hombre" : "Mujer"} />
-          <Row label="🎂 Edad" value={`${user.age} años`} />
-          <Row label="📏 Altura" value={`${user.height} cm`} />
-          <Row label="🏋️ Peso" value={`${user.weight} kg`} last />
+          <Row Icon={Target} label="Meta diaria" value={`${user.dailyCalories.toLocaleString("es")} kcal`} />
+          <Row Icon={Scale} label="Objetivo" value={GOAL_LABELS[user.goal]} />
+          <Row Icon={UserIcon} label="Sexo" value={user.sex === "male" ? "Hombre" : "Mujer"} />
+          <Row Icon={Cake} label="Edad" value={`${user.age} años`} />
+          <Row Icon={Ruler} label="Altura" value={`${user.height} cm`} />
+          <Row Icon={Dumbbell} label="Peso" value={`${user.weight} kg`} last />
           <button
             onClick={() => setEditing(true)}
             className="w-full rounded-b-xl border-t border-neutral-100 py-3 text-sm font-medium text-brand"
@@ -150,10 +151,23 @@ export default function Profile({
   );
 }
 
-function Row({ label, value, last }: { label: string; value: string; last?: boolean }) {
+function Row({
+  Icon,
+  label,
+  value,
+  last,
+}: {
+  Icon: typeof Target;
+  label: string;
+  value: string;
+  last?: boolean;
+}) {
   return (
     <div className={`flex items-center justify-between px-4 py-3 ${last ? "" : "border-b border-neutral-100"}`}>
-      <span className="text-sm">{label}</span>
+      <span className="flex items-center gap-2 text-sm">
+        <Icon size={16} className="text-neutral-400" />
+        {label}
+      </span>
       <span className="text-sm text-neutral-500">{value}</span>
     </div>
   );

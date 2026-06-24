@@ -1,15 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import { Minus, TrendingDown, TrendingUp } from "lucide-react";
 import { Logo } from "@/components/ui";
 import { type Goal } from "@/lib/meals";
 import { type Activity, type Sex, ACTIVITIES, dailyCaloriesFor } from "@/lib/nutrition";
 import { type User, login, register } from "@/lib/api";
 
-const GOALS: { id: Goal; label: string; icon: string }[] = [
-  { id: "perder", label: "Bajar", icon: "📉" },
-  { id: "mantener", label: "Mantener", icon: "⚖️" },
-  { id: "ganar", label: "Subir", icon: "📈" },
+const GOALS: { id: Goal; label: string; Icon: typeof Minus }[] = [
+  { id: "perder", label: "Bajar", Icon: TrendingDown },
+  { id: "mantener", label: "Mantener", Icon: Minus },
+  { id: "ganar", label: "Subir", Icon: TrendingUp },
 ];
 
 type Mode = "welcome" | "login" | "register";
@@ -153,7 +154,8 @@ export default function Auth({ onAuthed }: { onAuthed: (u: User) => void }) {
               <div className="grid grid-cols-3 gap-2">
                 {GOALS.map((g) => (
                   <button key={g.id} onClick={() => setGoal(g.id)} className={`rounded-xl border px-2 py-2.5 text-center text-xs ${goal === g.id ? "border-brand-bright bg-emerald-50 font-medium text-brand" : "border-neutral-200"}`}>
-                    <span className="block text-base">{g.icon}</span>{g.label}
+                    <g.Icon size={18} className="mx-auto mb-0.5" />
+                    {g.label}
                   </button>
                 ))}
               </div>
