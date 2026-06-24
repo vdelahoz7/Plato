@@ -22,8 +22,10 @@ export function Logo({ className = "h-7 w-7" }: { className?: string }) {
 export function CalorieRing({ total, goal }: { total: number; goal: number }) {
   const r = 52;
   const circ = 2 * Math.PI * r;
+  const over = total > goal;
   const progress = Math.min(total / goal, 1);
   const offset = circ * (1 - progress);
+  const diff = Math.abs(goal - total);
   return (
     <div className="relative h-32 w-32 shrink-0">
       <svg viewBox="0 0 120 120" className="h-32 w-32 -rotate-90">
@@ -33,7 +35,7 @@ export function CalorieRing({ total, goal }: { total: number; goal: number }) {
           cy="60"
           r={r}
           fill="none"
-          stroke="var(--brand-bright)"
+          stroke={over ? "#d85a30" : "var(--brand-bright)"}
           strokeWidth="12"
           strokeLinecap="round"
           strokeDasharray={circ}
@@ -46,6 +48,14 @@ export function CalorieRing({ total, goal }: { total: number; goal: number }) {
           {total.toLocaleString("es")}
         </span>
         <span className="text-xs text-muted">de {goal.toLocaleString("es")}</span>
+        {total > 0 && (
+          <span
+            className="mt-0.5 text-[11px] font-medium tabular-nums"
+            style={{ color: over ? "#d85a30" : "var(--brand-bright)" }}
+          >
+            {over ? `+${diff.toLocaleString("es")}` : `faltan ${diff.toLocaleString("es")}`}
+          </span>
+        )}
       </div>
     </div>
   );
