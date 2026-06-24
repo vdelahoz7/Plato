@@ -1,4 +1,5 @@
 import type { Analysis, Goal, Meal } from "@/lib/meals";
+import type { Activity, Sex } from "@/lib/nutrition";
 
 export type User = {
   id: string;
@@ -6,6 +7,20 @@ export type User = {
   name: string;
   goal: Goal;
   dailyCalories: number;
+  weight: number;
+  height: number;
+  age: number;
+  sex: Sex;
+  activity: Activity;
+};
+
+export type Profile = {
+  weight: number;
+  height: number;
+  age: number;
+  sex: Sex;
+  activity: Activity;
+  goal: Goal;
 };
 
 async function jsonOrThrow(res: Response) {
@@ -24,9 +39,7 @@ export async function register(input: {
   name: string;
   email: string;
   password: string;
-  goal: Goal;
-  dailyCalories: number;
-}): Promise<User> {
+} & Profile): Promise<User> {
   const res = await fetch("/api/auth/register", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -67,11 +80,7 @@ export async function deleteMeal(id: string): Promise<void> {
   await jsonOrThrow(res);
 }
 
-export async function updateUser(input: {
-  goal?: Goal;
-  dailyCalories?: number;
-  name?: string;
-}): Promise<User> {
+export async function updateUser(input: Partial<Profile> & { name?: string }): Promise<User> {
   const res = await fetch("/api/user", {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },

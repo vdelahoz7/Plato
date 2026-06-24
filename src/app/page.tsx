@@ -6,12 +6,14 @@ import Auth from "@/components/Auth";
 import Profile from "@/components/Profile";
 import Stats from "@/components/Stats";
 import Historial from "@/components/Historial";
+import Coach from "@/components/Coach";
 import {
   type Analysis,
   type Meal,
   sumTotals,
   todayMeals,
 } from "@/lib/meals";
+import { macroTargets } from "@/lib/nutrition";
 import {
   type User,
   addMeal,
@@ -20,8 +22,6 @@ import {
   fetchMeals,
   logout as logoutApi,
 } from "@/lib/api";
-
-const MACRO_TARGETS = { protein: 120, carbs: 250, fat: 70 };
 
 type Screen = "diario" | "stats" | "historial" | "perfil";
 
@@ -62,6 +62,7 @@ export default function Home() {
 
   const today = todayMeals(meals);
   const totals = sumTotals(today);
+  const targets = macroTargets(user.dailyCalories);
 
   async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -117,9 +118,9 @@ export default function Home() {
           <div className="flex items-center gap-5 md:flex-col md:gap-6">
             <CalorieRing total={Math.round(totals.calories)} goal={user.dailyCalories} />
             <div className="flex-1 space-y-3 md:w-full">
-              <MacroBar label="Proteína" grams={totals.protein} target={MACRO_TARGETS.protein} color="#1d9e75" />
-              <MacroBar label="Carbos" grams={totals.carbs} target={MACRO_TARGETS.carbs} color="#ba7517" />
-              <MacroBar label="Grasa" grams={totals.fat} target={MACRO_TARGETS.fat} color="#d85a30" />
+              <MacroBar label="Proteína" grams={totals.protein} target={targets.protein} color="#1d9e75" />
+              <MacroBar label="Carbos" grams={totals.carbs} target={targets.carbs} color="#ba7517" />
+              <MacroBar label="Grasa" grams={totals.fat} target={targets.fat} color="#d85a30" />
             </div>
           </div>
         </section>
@@ -176,6 +177,8 @@ export default function Home() {
           )}
         </section>
       </div>
+
+      <Coach today={today} />
     </div>
   );
 

@@ -22,16 +22,6 @@ export type Meal = Analysis & {
 
 export type Goal = "perder" | "mantener" | "ganar";
 
-const GOAL_CALORIES: Record<Goal, number> = {
-  perder: 1800,
-  mantener: 2200,
-  ganar: 2600,
-};
-
-export function caloriesForGoal(goal: Goal): number {
-  return GOAL_CALORIES[goal];
-}
-
 export function initials(name: string): string {
   const parts = name.trim().split(/\s+/).filter(Boolean);
   if (parts.length === 0) return "🙂";

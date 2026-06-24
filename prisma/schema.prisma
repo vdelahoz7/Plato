@@ -14,6 +14,11 @@ model User {
   passwordHash  String
   goal          String    @default("mantener")
   dailyCalories Int       @default(2200)
+  weight        Int       @default(70)
+  height        Int       @default(170)
+  age           Int       @default(30)
+  sex           String    @default("male")
+  activity      String    @default("moderado")
   createdAt     DateTime  @default(now())
   meals         Meal[]
   sessions      Session[]
