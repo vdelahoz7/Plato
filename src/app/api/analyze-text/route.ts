@@ -58,9 +58,15 @@ export async function POST(request: Request) {
     return Response.json(JSON.parse(out));
   } catch (err) {
     const message = err instanceof Error ? err.message : "Error desconocido";
-    if (/(503|unavailable|overloaded|429|resource_exhausted|quota)/i.test(message)) {
+    if (/(429|resource_exhausted|quota)/i.test(message)) {
       return Response.json(
-        { error: "El servicio de IA está muy ocupado. Intenta de nuevo en unos segundos." },
+        { error: "Se alcanzó el límite de uso de la IA por hoy. Vuelve a intentarlo más tarde." },
+        { status: 429 },
+      );
+    }
+    if (/(503|unavailable|overloaded)/i.test(message)) {
+      return Response.json(
+        { error: "El servicio de IA está ocupado. Intenta de nuevo en unos segundos." },
         { status: 503 },
       );
     }

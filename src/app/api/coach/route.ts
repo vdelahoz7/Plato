@@ -86,9 +86,15 @@ tenla en cuenta. Sé concreto y amable, nada genérico; si se pasa o le falta, d
     return Response.json(JSON.parse(out));
   } catch (err) {
     const message = err instanceof Error ? err.message : "Error desconocido";
-    if (/(503|unavailable|overloaded|429|resource_exhausted|quota)/i.test(message)) {
+    if (/(429|resource_exhausted|quota)/i.test(message)) {
       return Response.json(
-        { error: "El coach está muy ocupado. Intenta de nuevo en unos segundos." },
+        { error: "Se alcanzó el límite de uso de la IA por hoy. Vuelve a intentarlo más tarde." },
+        { status: 429 },
+      );
+    }
+    if (/(503|unavailable|overloaded)/i.test(message)) {
+      return Response.json(
+        { error: "El coach está ocupado. Intenta de nuevo en unos segundos." },
         { status: 503 },
       );
     }
