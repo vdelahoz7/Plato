@@ -1,11 +1,6 @@
-import {
-  GoogleGenAI,
-  Type,
-  createUserContent,
-  createPartFromBase64,
-} from "@google/genai";
+import { Type, createUserContent, createPartFromBase64 } from "@google/genai";
 import { getCurrentUser } from "@/lib/auth";
-import { GEMINI_MODEL } from "@/lib/gemini";
+import { generateJSON } from "@/lib/gemini";
 
 export const runtime = "nodejs";
 
@@ -14,7 +9,6 @@ Responde SIEMPRE en español. Identifica el platillo y desglosa cada alimento vi
 Si la imagen no contiene comida, devuelve name "No se detectó comida" y todos los valores en 0.
 Sé realista con las porciones que ves en la foto.`;
 
-// Estructura que forzamos en la respuesta del modelo (structured output).
 const responseSchema = {
   type: Type.OBJECT,
   properties: {
@@ -75,54 +69,20 @@ export async function POST(request: Request) {
   }
 
   try {
-    const ai = new GoogleGenAI({ apiKey });
-
-    // Gemini (plan gratuito) a veces devuelve 503 por saturación temporal.
-    // Reintentamos con un pequeño backoff antes de rendirnos.
-    let response;
-    let lastErr: unknown;
-    for (let attempt = 0; attempt < 3; attempt++) {
-      try {
-        response = await ai.models.generateContent({
-          model: GEMINI_MODEL,
-          contents: createUserContent([
-            PROMPT,
-            createPartFromBase64(base64, mimeType),
-          ]),
-          config: {
-            responseMimeType: "application/json",
-            responseSchema,
-          },
-        });
-        break;
-      } catch (e) {
-        lastErr = e;
-        const msg = e instanceof Error ? e.message : String(e);
-        const overloaded = msg.includes("503") || msg.includes("UNAVAILABLE");
-        if (!overloaded || attempt === 2) throw e;
-        await new Promise((r) => setTimeout(r, 1500 * (attempt + 1)));
-      }
-    }
-    if (!response) throw lastErr ?? new Error("Sin respuesta del modelo");
-
-    const text = response.text;
-    if (!text) {
-      return Response.json({ error: "Gemini no devolvió una respuesta." }, { status: 502 });
-    }
-
-    const data = JSON.parse(text);
-    return Response.json(data);
+    const text = await generateJSON({
+      apiKey,
+      contents: createUserContent([PROMPT, createPartFromBase64(base64, mimeType)]),
+      responseSchema,
+    });
+    return Response.json(JSON.parse(text));
   } catch (err) {
     const message = err instanceof Error ? err.message : "Error desconocido";
-    if (message.includes("503") || message.includes("UNAVAILABLE")) {
+    if (/(503|unavailable|overloaded|429|resource_exhausted|quota)/i.test(message)) {
       return Response.json(
-        { error: "Gemini está saturado ahora mismo. Intenta de nuevo en unos segundos." },
+        { error: "El servicio de IA está muy ocupado. Intenta de nuevo en unos segundos." },
         { status: 503 },
       );
     }
-    return Response.json(
-      { error: `Error al analizar con Gemini: ${message}` },
-      { status: 502 },
-    );
+    return Response.json({ error: `Error al analizar con Gemini: ${message}` }, { status: 502 });
   }
 }

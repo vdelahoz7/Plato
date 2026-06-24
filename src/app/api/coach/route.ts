@@ -1,6 +1,6 @@
-import { GoogleGenAI, Type } from "@google/genai";
+import { Type } from "@google/genai";
 import { getCurrentUser } from "@/lib/auth";
-import { GEMINI_MODEL } from "@/lib/gemini";
+import { generateJSON } from "@/lib/gemini";
 
 export const runtime = "nodejs";
 
@@ -70,29 +70,15 @@ Da feedback breve, personalizado y útil sobre cómo va su día respecto a su me
 Sé concreto y amable, nada genérico. Si va bien, motívalo; si se está pasando o le falta, dilo con tacto y di qué ajustar.`;
 
   try {
-    const ai = new GoogleGenAI({ apiKey });
-    let response;
-    for (let attempt = 0; attempt < 3; attempt++) {
-      try {
-        response = await ai.models.generateContent({
-          model: GEMINI_MODEL,
-          contents: prompt,
-          config: { responseMimeType: "application/json", responseSchema },
-        });
-        break;
-      } catch (e) {
-        const msg = e instanceof Error ? e.message : String(e);
-        if ((!msg.includes("503") && !msg.includes("UNAVAILABLE")) || attempt === 2) throw e;
-        await new Promise((r) => setTimeout(r, 1500 * (attempt + 1)));
-      }
-    }
-    const text = response?.text;
-    if (!text) return Response.json({ error: "El coach no respondió." }, { status: 502 });
-    return Response.json(JSON.parse(text));
+    const out = await generateJSON({ apiKey, contents: prompt, responseSchema });
+    return Response.json(JSON.parse(out));
   } catch (err) {
     const message = err instanceof Error ? err.message : "Error desconocido";
-    if (message.includes("503") || message.includes("UNAVAILABLE")) {
-      return Response.json({ error: "El coach está ocupado, intenta en unos segundos." }, { status: 503 });
+    if (/(503|unavailable|overloaded|429|resource_exhausted|quota)/i.test(message)) {
+      return Response.json(
+        { error: "El coach está muy ocupado. Intenta de nuevo en unos segundos." },
+        { status: 503 },
+      );
     }
     return Response.json({ error: `Error del coach: ${message}` }, { status: 502 });
   }
