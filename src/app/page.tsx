@@ -11,6 +11,7 @@ import TextLog from "@/components/TextLog";
 import {
   type Analysis,
   type Meal,
+  getStats,
   sumTotals,
   todayMeals,
 } from "@/lib/meals";
@@ -180,7 +181,7 @@ export default function Home() {
       </div>
 
       <TextLog onResult={setResult} setBusy={setAnalyzing} setError={setError} />
-      <Coach today={today} />
+      <Coach today={today} stats={getStats(meals)} />
     </div>
   );
 

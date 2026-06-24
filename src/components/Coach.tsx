@@ -16,7 +16,13 @@ const STATUS_STYLE: Record<string, { bg: string; border: string; text: string; e
   alerta: { bg: "bg-red-50", border: "border-red-200", text: "text-red-800", emoji: "⚠️" },
 };
 
-export default function Coach({ today }: { today: Meal[] }) {
+export default function Coach({
+  today,
+  stats,
+}: {
+  today: Meal[];
+  stats: { average: number; streak: number };
+}) {
   const [loading, setLoading] = useState(false);
   const [feedback, setFeedback] = useState<Feedback | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -36,6 +42,7 @@ export default function Coach({ today }: { today: Meal[] }) {
             carbs: m.carbs,
             fat: m.fat,
           })),
+          context: { average: stats.average, streak: stats.streak },
         }),
       });
       const data = await res.json();
