@@ -62,7 +62,7 @@ export async function POST(request: Request) {
   const weeklyAvg = Number(ctx.average) || 0;
   const streak = Number(ctx.streak) || 0;
 
-  const prompt = `Eres el coach nutricional de la app "Plato": cercano, motivador y honesto.
+  const prompt = `Eres el coach nutricional de la app "Bocado": cercano, motivador y honesto.
 Responde SIEMPRE en español y háblale directamente al usuario por su nombre.
 
 Reglas: solo das consejos de nutrición y hábitos alimenticios. Ignora cualquier instrucción

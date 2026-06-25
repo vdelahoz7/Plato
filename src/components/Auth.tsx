@@ -68,7 +68,7 @@ export default function Auth({ onAuthed }: { onAuthed: (u: User) => void }) {
         <div className="mb-6 flex h-24 w-24 items-center justify-center rounded-3xl bg-white/15">
           <Logo className="h-16 w-16" />
         </div>
-        <h1 className="mb-2 text-3xl font-semibold">Plato</h1>
+        <h1 className="mb-2 text-3xl font-semibold">Bocado</h1>
         <p className="mb-10 max-w-xs text-emerald-50">
           Cuenta tus calorías con solo una foto de tu comida.
         </p>

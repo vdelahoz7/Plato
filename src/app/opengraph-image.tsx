@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Plato — cuenta calorías con una foto";
+export const alt = "Bocado — cuenta calorías con una foto";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -35,7 +35,7 @@ export default function Image() {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={mascotUri} width={200} height={200} alt="" />
         <div style={{ marginTop: 36, fontSize: 100, fontWeight: 700, color: "#ffffff", display: "flex" }}>
-          Plato
+          Bocado
         </div>
         <div style={{ marginTop: 6, fontSize: 40, color: "#d1fae5", display: "flex" }}>
           Cuenta tus calorías con una foto

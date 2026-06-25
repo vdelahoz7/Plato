@@ -206,7 +206,7 @@ export default function Home_() {
             <Logo />
           </div>
           <div className="leading-tight">
-            <p className="font-semibold">Plato</p>
+            <p className="font-semibold">Bocado</p>
             <p className="text-[11px] text-muted">tu día, en una foto</p>
           </div>
           <ThemeToggle className="ml-auto" />
@@ -246,7 +246,7 @@ export default function Home_() {
             <Logo />
           </div>
           <div className="leading-tight">
-            <p className="font-semibold">Plato</p>
+            <p className="font-semibold">Bocado</p>
             <p className="text-[11px] text-muted">tu día, en una foto</p>
           </div>
           <ThemeToggle className="ml-auto" />

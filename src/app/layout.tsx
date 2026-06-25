@@ -14,16 +14,16 @@ const geistMono = Geist_Mono({
 });
 
 const DESCRIPTION =
-  "Toma una foto de tu comida y la IA estima sus calorías y macros. Lleva tu diario diario y recibe consejos de un coach nutricional con inteligencia artificial.";
+  "Toma una foto de tu comida y la IA estima sus calorías y macros. Lleva tu diario y recibe consejos de un coach nutricional con inteligencia artificial.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://plato-cyan.vercel.app"),
   title: {
-    default: "Plato — cuenta calorías con una foto",
-    template: "%s · Plato",
+    default: "Bocado — cuenta calorías con una foto",
+    template: "%s · Bocado",
   },
   description: DESCRIPTION,
-  applicationName: "Plato",
+  applicationName: "Bocado",
   keywords: [
     "contador de calorías",
     "calorías por foto",
@@ -36,16 +36,16 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Victor de la Hoz" }],
   openGraph: {
-    title: "Plato — cuenta calorías con una foto",
+    title: "Bocado — cuenta calorías con una foto",
     description: DESCRIPTION,
     url: "/",
-    siteName: "Plato",
+    siteName: "Bocado",
     locale: "es_ES",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Plato — cuenta calorías con una foto",
+    title: "Bocado — cuenta calorías con una foto",
     description: DESCRIPTION,
   },
 };

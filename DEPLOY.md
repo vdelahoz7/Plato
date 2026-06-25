@@ -1,4 +1,4 @@
-# Desplegar Plato (Vercel + Neon)
+# Desplegar Bocado (Vercel + Neon)
 
 La app es full-stack (Next.js): frontend y backend se despliegan juntos en Vercel.
 La base de datos va aparte, en Neon (Postgres en la nube).

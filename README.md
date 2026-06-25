@@ -1,4 +1,4 @@
-# Plato 🍽️
+# Bocado 🍽️
 
 Cuenta tus calorías con solo una foto. Tomas una foto de tu comida y la IA
 (Gemini Vision) estima el platillo, sus calorías y sus macros, y lo registra en
